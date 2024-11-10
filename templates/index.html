@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Optimizer</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" href="/static/icon.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for graph -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script> <!-- FileSaver.js for downloads -->
+</head>
+<body>
+    <div id="blur-background"></div>
+    <div id="form" style="font-family:'Open Sans Condensed', sans-serif; width: 800px; margin: 20px auto; position: relative;">
+        <div class="fieldset">
+            <legend>Optimize your network!</legend>
+            <form id="prediction-form">
+                
+                <!-- Configuration Summary -->
+                <div id="configuration-summary">
+                    <strong>Current Configuration:</strong>
+                    <p id="config-summary-text">Adjust sliders and select applications to update.</p>
+                </div>
+                
+                <!-- Signal Strength Slider -->
+                <div class="range-slider-container">
+                    <label for="sliderValue1">Signal Strength:</label>
+                    <input type="range" min="-5" max="5" step="0.000001" name="Signal_Strength" id="sliderValue1" oninput="updateSliderValue('sliderValue1', 'signalStrengthValue')">
+                    <span id="signalStrengthValue">0.00</span>
+                </div>
+                
+                <!-- Latency Slider -->
+                <div class="range-slider-container">
+                    <label for="sliderValue2">Latency:</label>
+                    <input type="range" min="-5" max="5" step="0.000001" name="Latency" id="sliderValue2" oninput="updateSliderValue('sliderValue2', 'latencyValue')">
+                    <span id="latencyValue">0.00</span>
+                </div>
+                
+                <!-- Application Type Checkboxes -->
+                <label for="application-type">Application Type:</label><br><br>
+                <div class="checkbox-set grid">
+                    <label class="container">Background Download
+                        <input type="checkbox" name="Application_Type_Background_Download">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Emergency Service
+                        <input type="checkbox" name="Application_Type_Emergency_Service">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">File Download
+                        <input type="checkbox" name="Application_Type_File_Download">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">IoT Temperature
+                        <input type="checkbox" name="Application_Type_IoT_Temperature">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Online Gaming
+                        <input type="checkbox" name="Application_Type_Online_Gaming">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Streaming
+                        <input type="checkbox" name="Application_Type_Streaming">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Video Call
+                        <input type="checkbox" name="Application_Type_Video_Call">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Video Streaming
+                        <input type="checkbox" name="Application_Type_Video_Streaming">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">VoIP Call
+                        <input type="checkbox" name="Application_Type_VoIP_Call">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Web Browsing
+                        <input type="checkbox" name="Application_Type_Web_Browsing">
+                        <span class="checkmark"></span>
+                    </label>
+                    <!-- New Feature Checkbox -->
+                    <label class="container">Cloud Backup
+                        <input type="checkbox" name="Application_Type_Cloud_Backup">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+                <!-- Bandwidth Utilization Slider -->
+                <div class="range-slider-container">
+                    <label for="sliderValue3">Bandwidth Utilization:</label>
+                    <input type="range" min="0" max="5" step="0.01" name="Bandwidth_Utilization_Ratio" id="sliderValue3" oninput="updateSliderValue('sliderValue3', 'bandwidthUtilizationValue')">
+                    <span id="bandwidthUtilizationValue">0.00</span>
+                </div>
+
+                <!-- Predict and Reset Buttons -->
+                <div class="button-group">
+                    <button type="button" id="predictButton" onclick="submitPrediction()">Predict</button>
+                    <button type="button" id="resetButton" onclick="restoreDefaults()">Restore Defaults</button>
+                </div>
+                
+                <!-- Prediction Result and History Controls -->
+                <div id="prediction-result" class="fade-in">
+                    <p>Results will appear here after form submission.</p>
+                </div>
+                
+                <!-- Prediction History with Download and Collapse Options -->
+                <div id="prediction-history">
+                    <h3 onclick="toggleHistory()">Prediction History <span id="toggle-icon">▼</span></h3>
+                    <ul id="history-list"></ul>
+                    <div class="button-group">
+                        <button type="button" onclick="downloadHistory()">Download</button>
+                        <button type="button" onclick="clearHistory()">Clear History</button>
+                    </div>
+                </div>
+
+                <!-- Prediction Graph -->
+                <canvas id="predictionChart" style="max-width: 100%; margin-top: 20px;"></canvas>
+                
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script> <!-- JavaScript File -->
+</body>
+</html>
